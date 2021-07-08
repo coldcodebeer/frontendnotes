@@ -61,3 +61,26 @@
   - [react-helmet: A document head manager for React](https://github.com/nfl/react-helmet#readme)
   - [vue-meta: Manage HTML metadata in Vue.js components with SSR support](https://github.com/nuxt/vue-meta)
   - Angular：[Title service](https://angular.io/api/platform-browser/Title)&[Meta service](https://angular.io/api/platform-browser/Meta)
+
+
+---
+
+
+### 设计模式
+#### 状态模式: 一种行为设计模式
+状态模式与有限状态机的概念紧密相关。
+  - 状态机：全称有限状态机(Finite State Machine)，缩写为 FSM。
+
+其主要思想是程序仅有几种有限的状态，在任何一个特定状态中，程序的行为都不相同，且可从一个状态切换到另一个状态。
+
+由以下3个部分组成：
+- State(状态)
+- Event(事件): 也称为转移条件(Transition Condition)，触发状态的转移及动作的执行
+- Action(动作): 非必须，如只转移状态，不执行其他操作(side effects)
+
+其模式好比这样一个计算公式：`current state + event = next state + side effects`
+
+Finite State Machines in JavaScript
+- [Simple state machine in JavaScipt](./state-machine.js) [[ref](https://kentcdodds.com/blog/implementing-a-simple-state-machine-library-in-javascript)]
+- [xstate:State machines and statecharts for the modern web.](https://github.com/statelyai/xstate)
+- [javascript-state-machine](https://github.com/jakesgordon/javascript-state-machine)
