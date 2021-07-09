@@ -107,6 +107,7 @@ ETag（响应首部字段）是根据实体内容生成的一段hash字符串（
 - Push Cache [[ref](https://jakearchibald.com/2017/h2-push-tougher-than-i-thought/)]
 
   其主要思想是服务器可以预测客户端将要发出的请求，然后提前把一对 请求/响应 发送给客户端，客户端使用时从缓存拿取。该缓存是基于HTTP/2链接的，链接关闭，也就无法接受到缓存，即是这份资源已经需要更新；多个页面如果共用一个HTTP/2链接，也可以共用一个push cache；推送缓存中的项目只能使用一次；但是其应用并不广泛[[ref](https://evertpot.com/http-2-push-is-dead/)]暂不做进一步探索。
+
 ## 设计模式
 ### 状态模式: 一种行为设计模式
 状态模式与有限状态机的概念紧密相关。
@@ -122,6 +123,6 @@ ETag（响应首部字段）是根据实体内容生成的一段hash字符串（
 其模式好比这样一个计算公式：`current state + event = next state + side effects`
 
 Finite State Machines in JavaScript
-- [Simple state machine in JavaScipt](./state-machine.js) [[ref](https://kentcdodds.com/blog/implementing-a-simple-state-machine-library-in-javascript)]
+- [Simple state machine in JavaScipt](./demo/state-machine.js) [[ref](https://kentcdodds.com/blog/implementing-a-simple-state-machine-library-in-javascript)]
 - [xstate:State machines and statecharts for the modern web.](https://github.com/statelyai/xstate)
 - [javascript-state-machine](https://github.com/jakesgordon/javascript-state-machine)
