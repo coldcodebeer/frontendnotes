@@ -108,6 +108,32 @@ ETag（响应首部字段）是根据实体内容生成的一段hash字符串（
 
   其主要思想是服务器可以预测客户端将要发出的请求，然后提前把一对 请求/响应 发送给客户端，客户端使用时从缓存拿取。该缓存是基于HTTP/2链接的，链接关闭，也就无法接受到缓存，即是这份资源已经需要更新；多个页面如果共用一个HTTP/2链接，也可以共用一个push cache；推送缓存中的项目只能使用一次；但是其应用并不广泛[[ref](https://evertpot.com/http-2-push-is-dead/)]暂不做进一步探索。
 
+## JavaScript modules 模块
+模块化：将JavaScript程序拆分为可按需导入的单独模块的机制
+
+模块规范：[AMD](https://github.com/amdjs/amdjs-api/wiki/AMD)、 [CommonJS](https://en.wikipedia.org/wiki/CommonJS)、[UMD](https://github.com/umdjs/umd)、[ES6 module](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules)
+
+### AMD
+AMD(Asynchronous Module Definition)是一种异步模块规范，主要应用于浏览器端，[RequireJS](https://requirejs.org/)就是采用的该规范。与其类似的另一规范是[SeaJS](https://github.com/seajs/seajs)所遵循的[CMD](https://github.com/seajs/seajs/issues/242)([Common Module Definition](https://github.com/cmdjs/specification/blob/master/draft/module.md))的规范。俩者都是解决客户端异步加载模块的方案，皆是从库的使用推广后形成的规范，CMD推崇依赖就近，AMD推崇依赖前置。
+
+### CommonJS
+CommonJS模块使用require()加载和module.exports输出，代码是同步加载的，所以不适合浏览器。
+CommonJS规范规定，一个文件就是一个模块，每个模块内部，module变量代表当前模块。module其实就是一个对象，它的exports属性（即 module.exports）是对外的接口。加载某个模块，其实是加载该模块的module.exports属性。
+因为CommonJS模块的输出的是一个对象，无法被静态分析，只能整体加载，且CommonJS模块输出的是值的拷贝，不存在动态更新。
+
+### UMD (Universal Module Definition)
+旨在提供一个B/S端跨平台的解决方案(结合AMD与CommonJS模块方式)[[ref](https://leohxj.gitbooks.io/front-end-database/content/javascript-modules/about-umd.html)]
+
+原理：
+  1. 先判断是否支持Node.js模块格式（exports是否存在），若存在则使用Node.js模块格式
+  2. 再判断是否支持AMD（define是否存在），存在则使用AMD方式加载模块
+  3. 前两个都不存在，则将模块公开到全局（window或global）
+
+### ES6 module
+ES6module是浏览器原生支持的模块异步加载功能，使用`import`和`export`实现导入与导出，在ECMAScript2015版中提出，旨在成为服务端与客户端标准的模块化方案。ES6模块默认开启严格模式、顶层作用域是基于模块而非全局、可以动态加载模块。export语句输出的是接口，是绑定关系，即可获取所输出的变量时时的值，这是因为JS引擎对模块里的代码做了静态分析，遇到模块加载命令`import`，就会生成一个只读引用；等到脚本真正执行时，再根据这个只读引用去对应模块里取值。在浏览器中模块化的script标签`<script type="module" src="...">`默认向带有deferred属性的功能(与其他资源一起加载但脚本会在文档解析完后才去执行)，且受同源策略限制。从Node.js v13.2版本开始，默认开启ES6模块。
+- [Modules, introduction](https://javascript.info/modules-intro)
+- [Module 的加载实现](https://es6.ruanyifeng.com/#docs/module-loader)
+
 ## 设计模式
 ### 状态模式: 一种行为设计模式
 状态模式与有限状态机的概念紧密相关。
