@@ -106,7 +106,7 @@ ETag（响应首部字段）是根据实体内容生成的一段hash字符串（
   根据Header中的字段进行缓存控制；存储在硬盘中，读取速度较慢，持久性好，电脑重启后也可访问到，容量大；可以跨站缓存。绝大部分的缓存都来自Disk Cache。
 - Push Cache [[ref](https://jakearchibald.com/2017/h2-push-tougher-than-i-thought/)]
 
-  其主要思想是服务器可以预测客户端将要发出的请求，然后提前把一对 请求/响应 发送给客户端，客户端使用时从缓存拿取。该缓存是基于HTTP/2链接的，链接关闭，也就无法接受到缓存，即是这份资源已经需要更新；多个页面如果共用一个HTTP/2链接，也可以共用一个push cache；推送缓存中的项目只能使用一次；但是其应用并不广泛[[ref](https://evertpot.com/http-2-push-is-dead/)]暂不做进一步探索。
+  其[主要思想](http://www.ruanyifeng.com/blog/2018/03/http2_server_push.html)是服务器可以预测客户端将要发出的请求，然后提前把一对 请求/响应 发送给客户端，客户端使用时从缓存拿取。该缓存是基于HTTP/2链接的，链接关闭，也就无法接受到缓存，即是这份资源已经需要更新；多个页面如果共用一个HTTP/2链接，也可以共用一个push cache；推送缓存中的项目只能使用一次。但由于各种限制及其支持情况并不理想[[ref](https://evertpot.com/http-2-push-is-dead/)]暂不做进一步探索。
 
 ## JavaScript modules 模块
 模块化：将JavaScript程序拆分为可按需导入的单独模块的机制
