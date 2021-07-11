@@ -134,7 +134,36 @@ ES6module是浏览器原生支持的模块异步加载功能，使用`import`和
 - [Modules, introduction](https://javascript.info/modules-intro)
 - [Module 的加载实现](https://es6.ruanyifeng.com/#docs/module-loader)
 
-## [HTTPS](https://www.cloudflare.com/zh-cn/learning/ssl/what-is-https/)
+## [HTTP](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Messages)
+HTTP（超文本传输协议）是基于TCP/IP的应用层协议。用于规范服务器与客户端间的数据的传输格式。
+- HTTP请求报文 = 请求行 + 请求头 + 空行 + 请求内容
+  - 请求行： 请求方法 + URL + 协议版本
+  - 请求头： 由key/value对组成，每行为一对，用于描述客户端的情况
+  - 空行：用于分割请求头与请求内容
+  - 请求内容： 请求携带的数据；get请求不会有请求正文；
+
+- 响应报文=状态行 + 响应头 + 空行 + 响应内容
+  - 状态行： HTTP协议版本 + 状态码 + 状态码描述
+  - 响应头：与请求头结构相同：不区分大小写的字符串
+  - 空行： 一个空行指示所有头部的元数据已经发送完毕
+  - 响应内容：服务端返回给客户端的数据
+
+1. 数据压缩：http1.1可对响应内容先进行压缩处理后在发送；`Content-Encoding`字段说明数据采用的压缩方法；`Accept-Encoding`说明客户端支持的压缩方法。
+2. 长链接：http1.1中可设置`Connection: keep-alive`来告知服务器不要关闭当前的TCP链接，以便其他请求复用，直到客户端或服务器主动关闭连接。
+3. 分块传输：如果头字段（请求头或者响应头）里Transfer-Encoding的值未`chunked`，就代要返回的数据采用le"流模式"（stream），非为像"缓存模式"（buffer）那样等数据全部处理完后才发送；每处理好一数据块，就会标明其大小然后发送出去，最后会发送一个大小为0的数据块来标识数据已经发送完毕。
+4. 管道化(HTTP Pipelining)：在长链接的前提下，同一个TCP连接里面，客户端可以同时发送多个请求。（支持GET、HEAD，对POST有所限制）但是服务器还是按照顺序响应。HTTP1.1中在服务器端也只是保证了成功处理请求的管线话，响应时并非是管线话；且服务器端与浏览器端对管线化的支持都不理想。所以这方面带来的性能提升并不大。
+
+### POST VS GET
+1. GET用于获取信息，一般不会有副作用，是安全且幂等的（不操作数据，同一个url重复获取得到的数据是一样的）。
+2. GET只允许ASCII字符且对URL长度有限制，而POST在数据格式与大小上无限制
+3. 刷新、后退等浏览器操作于GET请求是无害的，POST可能重复提交表单
+4. POST的数据因为在请求主体内，所以有一定的隐蔽性，而GET的数据在URL中，通过历史记录，缓存很容易查到数据信息
+
+#### reference
+- [HTTP Messages](https://developer.mozilla.org/en-US/docs/Web/HTTP/Messages)
+- [HTTP 协议入门](http://www.ruanyifeng.com/blog/2016/08/http.html)
+
+## HTTPS
 超文本传输协议安全（HTTPS）是 HTTP 的安全版本，相较于http提供了对数据完整性的校验（验证数据是否被篡改）、数据隐私性的保护（对传输内容进行加密）、以及身份认证（识别客户端/服务端就是你想要进行通信的）。
 
 `HTTPS = HTTP + SSL / TLS` 。关键点在于HTTPS使用了加密协议对通信进行加密。该协议称为传输层安全性（TLS）是SSL（安全套接字层）的升级版本，SSL已经逐渐被TLS取代。
