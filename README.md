@@ -171,10 +171,14 @@ HTTP（超文本传输协议）是基于TCP/IP的应用层协议。用于规范�
 TSL工作原理[[ref](https://www.cloudflare.com/zh-cn/learning/ssl/what-happens-in-a-tls-handshake/)]：
 1. ClientHello：客户端向服务器发送建立加密通信的请求，该请求被称作ClientHello请求；主要是为了向服务器发送客户端支持的TSL协议版本、支持的加密算法以及一个由客户端生成的随机数（client random）。
 2. SeverHello：服务器回应客户端的hello请求，告知客户端如下信息
-  1. [服务器证书](https://www.cloudflare.com/zh-cn/learning/ssl/what-is-an-ssl-certificate/)
-  2. 确认加密算法
-  3. 服务器生成的随机数（server random）
+    1. [服务器证书](https://www.cloudflare.com/zh-cn/learning/ssl/what-is-an-ssl-certificate/)
+    2. 确认加密算法
+    3. 服务器生成的随机数（server random）
 3. 客户端收到服务器返回的信息后，首先会对证书进行验证，如果证书颁布机构是不可信的、证书的域名不是想要请求的域名、或者证书过期，就会发出警告，询问客户端用户是否继续[[ref](https://cattail.me/tech/2015/11/30/how-https-works.html)]
+    - [证书验证](https://juejin.cn/post/6844903865410650126)：
+    如果中间人篡改了证书，那么身份证明是不是就无效了？这个证明就白买了，这个时候需要一个新的技术，数字签名。
+    数字签名就是用CA自带的HASH算法对证书的内容进行HASH得到一个摘要，再用CA的私钥加密，最终组成数字签名。
+    当别人把他的证书发过来的时候,我再用同样的Hash算法,再次生成消息摘要，然后用CA的公钥对数字签名解密,得到CA创建的消息摘要,两者一比,就知道中间有没有被人篡改了。
 4. 如果上述对证书的认证通过后，客户端会在生成一个随机数（premaster secret），并用服务器证书中的公钥加码随机数，发送给服务器
 5. 服务器使用私钥解密客户端新发过来的随机数（premaster secret）
 6. 服务器和客户端都使用`client random`、`server random`、`premaster secret`计算生成本次会话所用的`会话密钥`，使用对称加码的信息信息传输，提高响应速度（对称加密，计算量小，加密/解密速度快）
