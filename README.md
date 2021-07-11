@@ -134,6 +134,28 @@ ES6module是浏览器原生支持的模块异步加载功能，使用`import`和
 - [Modules, introduction](https://javascript.info/modules-intro)
 - [Module 的加载实现](https://es6.ruanyifeng.com/#docs/module-loader)
 
+## [HTTPS](https://www.cloudflare.com/zh-cn/learning/ssl/what-is-https/)
+超文本传输协议安全（HTTPS）是 HTTP 的安全版本，相较于http提供了对数据完整性的校验（验证数据是否被篡改）、数据隐私性的保护（对传输内容进行加密）、以及身份认证（识别客户端/服务端就是你想要进行通信的）。
+
+`HTTPS = HTTP + SSL / TLS` 。关键点在于HTTPS使用了加密协议对通信进行加密。该协议称为传输层安全性（TLS）是SSL（安全套接字层）的升级版本，SSL已经逐渐被TLS取代。
+
+TSL工作原理[[ref](https://www.cloudflare.com/zh-cn/learning/ssl/what-happens-in-a-tls-handshake/)]：
+1. ClientHello：客户端向服务器发送建立加密通信的请求，该请求被称作ClientHello请求；主要是为了向服务器发送客户端支持的TSL协议版本、支持的加密算法以及一个由客户端生成的随机数（client random）。
+2. SeverHello：服务器回应客户端的hello请求，告知客户端如下信息
+  1. [服务器证书](https://www.cloudflare.com/zh-cn/learning/ssl/what-is-an-ssl-certificate/)
+  2. 确认加密算法
+  3. 服务器生成的随机数（server random）
+3. 客户端收到服务器返回的信息后，首先会对证书进行验证，如果证书颁布机构是不可信的、证书的域名不是想要请求的域名、或者证书过期，就会发出警告，询问客户端用户是否继续[[ref](https://cattail.me/tech/2015/11/30/how-https-works.html)]
+4. 如果上述对证书的认证通过后，客户端会在生成一个随机数（premaster secret），并用服务器证书中的公钥加码随机数，发送给服务器
+5. 服务器使用私钥解密客户端新发过来的随机数（premaster secret）
+6. 服务器和客户端都使用`client random`、`server random`、`premaster secret`计算生成本次会话所用的`会话密钥`，使用对称加码的信息信息传输，提高响应速度（对称加密，计算量小，加密/解密速度快）
+7. Client is ready: 客户端向服务器发送通过会话密钥加密过的“finished”信息
+8. Server is ready: 服务器向客户端发送通过会话密钥加密过的“finished”信息
+
+以上步骤就是TSL的握手过程，得到以非对称方式加密的密钥，然后在用这个密钥以对称加密的方式进行通信。
+
+然而HTTPS也不是绝对安全的，可以通过中间人攻击。可以通过让HTTPS网站支持[HSTS](https://developers.google.com/search/docs/advanced/security/https?hl=zh-cn)等方式提高安全性。
+
 ## 设计模式
 ### 状态模式: 一种行为设计模式
 状态模式与有限状态机的概念紧密相关。
