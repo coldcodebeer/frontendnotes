@@ -177,3 +177,5 @@ Finite State Machines in JavaScript
 
 ## 手写代码系列
 - [实现 call，apply，bind 函数](./demo/myCallApplyBind.js)
+- [实现 Object.crete function，new 关键字](./demo/func-object-crete.js)
+- [防抖（debounce）与节流（throttle）](./demo/debounce-throttle.js)
