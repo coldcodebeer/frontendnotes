@@ -156,8 +156,10 @@ HTTP（超文本传输协议）是基于TCP/IP的应用层协议。用于规范�
 ### POST VS GET
 1. GET用于获取信息，一般不会有副作用，是安全且幂等的（不操作数据，同一个url重复获取得到的数据是一样的）。
 2. GET只允许ASCII字符且对URL长度有限制，而POST在数据格式与大小上无限制
-3. 刷新、后退等浏览器操作于GET请求是无害的，POST可能重复提交表单
+3. 刷新、后退等浏览器操作于GET请求是无害的，操作会再次提交表单请求
 4. POST的数据因为在请求主体内，所以有一定的隐蔽性，而GET的数据在URL中，通过历史记录，缓存很容易查到数据信息
+5. get 请求会被浏览器主动缓存，而post不会，除非手动设置
+6. get请求在发送过程中会产生一个TCP 数据包；post在发送过程中会产生两个TCP 数据包。对于get方式的请求，浏览器会把http header和 data一并发送出去，服务器响应200（返回数据）；而对于post，浏览器先发送header，服务器响应100 continue，浏览器再发送data，服务器响应 200 ok（返回数据）
 
 #### reference
 - [HTTP Messages](https://developer.mozilla.org/en-US/docs/Web/HTTP/Messages)
