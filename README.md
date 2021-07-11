@@ -174,3 +174,6 @@ Finite State Machines in JavaScript
 - [Simple state machine in JavaScipt](./demo/state-machine.js) [[ref](https://kentcdodds.com/blog/implementing-a-simple-state-machine-library-in-javascript)]
 - [xstate:State machines and statecharts for the modern web.](https://github.com/statelyai/xstate)
 - [javascript-state-machine](https://github.com/jakesgordon/javascript-state-machine)
+
+## 手写代码系列
+- [实现 call，apply，bind 函数](./demo/myCallApplyBind.js)
