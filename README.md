@@ -194,7 +194,7 @@ TSL工作原理[[ref](https://www.cloudflare.com/zh-cn/learning/ssl/what-happens
 
 然而HTTPS也不是绝对安全的，可以通过中间人攻击。可以通过让HTTPS网站支持[HSTS](https://developers.google.com/search/docs/advanced/security/https?hl=zh-cn)等方式提高安全性。
 
-## HTTP/2[HTTP/2 简介](https://developers.google.com/web/fundamentals/performance/http2/?hl=zh-cn)
+## [HTTP/2 简介](https://developers.google.com/web/fundamentals/performance/http2/?hl=zh-cn)
 - 数据流: 已建立的连接内的双向字节流，可以承载一条或多条消息。
 - 消息: 与逻辑请求或响应消息对应的完整的一系列帧。
 - 帧: HTTP/2 通信的最小单位，每个帧都包含帧头，至少也会标识出当前帧所属的数据流。
@@ -227,6 +227,53 @@ TSL工作原理[[ref](https://www.cloudflare.com/zh-cn/learning/ssl/what-happens
   - `Lax`: 只有顶级跳转（如 link 链接）才跨域发送Cookie，子请求(subrequest)不发送（如图片加载或者frames的调用）；该属性是新版现代浏览器的默认值
 - Secure：Cookie只应通过HTTPS请求发送给服务端；
 - Cookie的生命周期：会话cookie，即没有设置过期时间（Expires）或者有效期（Max-Age），浏览器关闭后被删除；持久性cookie取决于Expires或Max-Ages
+
+## CSRF & XSS
+### CSRF
+CSRF(Cross Site Request Forgery)跨站请求伪造：攻击者盗用了用户的身份，以用户的名义发送恶意请求。
+#### 防御：
+  - 加入验证码
+  - 验证refer（但会被篡改）
+  - Anti CSRF Token（随机保密的token）
+    - 在form表单或者头信息中传递token
+    ```html
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    ```
+    - token存储在服务器
+    - 服务器通过拦截器验证有效性
+    - 校验失败就拒绝请求
+  - 加入自定义header（只是把token放入到了header中）
+  ```javascript
+  <script type="text/javascript">
+    var csrf_token = document.querySelector("meta[name='csrf-token']").getAttribute("content");
+    function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS)$/.test(method));
+    }
+    var o = XMLHttpRequest.prototype.open;
+    XMLHttpRequest.prototype.open = function(){
+        var res = o.apply(this, arguments);
+        var err = new Error();
+        if (!csrfSafeMethod(arguments[0])) {
+            this.setRequestHeader('anti-csrf-token', csrf_token);
+        }
+        return res;
+    };
+ </script>
+  ```
+
+#### References
+- [Cross-Site Request Forgery Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html)
+
+### XSS
+- Cross Site Scripting（跨站脚本）：客户端中有被插入的恶意脚本，恶意代码被执行获取用户数据
+- 种类：反射型、存储型、DOM型
+- 防范：
+  - 对输入进行过滤
+  - 对输出进行编码
+  - 使用http-only
+  - 使用Content-Security-Policy [ref](https://content-security-policy.com/)
+
 
 ## 设计模式
 ### 状态模式: 一种行为设计模式
