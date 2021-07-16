@@ -226,6 +226,7 @@ TSL工作原理[[ref](https://www.cloudflare.com/zh-cn/learning/ssl/what-happens
   - `Strict`: 在cookie的作用域内（cookie的domain与path属性）发送cookie
   - `Lax`: 只有顶级跳转（如 link 链接）才跨域发送Cookie，子请求(subrequest)不发送（如图片加载或者frames的调用）；该属性是新版现代浏览器的默认值
 - Secure：Cookie只应通过HTTPS请求发送给服务端；
+- Cookie的生命周期：会话cookie，即没有设置过期时间（Expires）或者有效期（Max-Age），浏览器关闭后被删除；持久性cookie取决于Expires或Max-Ages
 
 ## 设计模式
 ### 状态模式: 一种行为设计模式
