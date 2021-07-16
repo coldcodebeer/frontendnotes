@@ -161,6 +161,9 @@ HTTP（超文本传输协议）是基于TCP/IP的应用层协议。用于规范�
 5. get 请求会被浏览器主动缓存，而post不会，除非手动设置
 6. get请求在发送过程中会产生一个TCP 数据包；post在发送过程中会产生两个TCP 数据包。对于get方式的请求，浏览器会把http header和 data一并发送出去，服务器响应200（返回数据）；而对于post，浏览器先发送header，服务器响应100 continue，浏览器再发送data，服务器响应 200 ok（返回数据）
 
+#### HTTP METHODS
+- HEAD: 该请求对应的响应不会返回响应实体(body)，用于确认URL的有效性、获取资源更新的日期时间等
+
 #### reference
 - [HTTP Messages](https://developer.mozilla.org/en-US/docs/Web/HTTP/Messages)
 - [HTTP 协议入门](http://www.ruanyifeng.com/blog/2016/08/http.html)
@@ -191,6 +194,30 @@ TSL工作原理[[ref](https://www.cloudflare.com/zh-cn/learning/ssl/what-happens
 
 然而HTTPS也不是绝对安全的，可以通过中间人攻击。可以通过让HTTPS网站支持[HSTS](https://developers.google.com/search/docs/advanced/security/https?hl=zh-cn)等方式提高安全性。
 
+## HTTP/2[HTTP/2 简介](https://developers.google.com/web/fundamentals/performance/http2/?hl=zh-cn)
+- 数据流: 已建立的连接内的双向字节流，可以承载一条或多条消息。
+- 消息: 与逻辑请求或响应消息对应的完整的一系列帧。
+- 帧: HTTP/2 通信的最小单位，每个帧都包含帧头，至少也会标识出当前帧所属的数据流。
+
+- 所有通信都在一个TCP连接上完成，此连接可以承载任意数量的双向数据流。
+- 每个数据流都有一个唯一的标识符和可选的优先级信息，用于承载双向消息。
+- 每条消息都是一条逻辑 HTTP 消息（例如请求或响应），包含一个或多个帧。
+- 帧是最小的通信单位，承载着特定类型的数据，例如 HTTP 标头、消息负载等等。 来自不同数据流的帧可以**交错发送**，然后再根据每个帧头的数据流标识符重新组装。
+
+- HTTP/2 二进制分帧层: 
+  - 实现了完整的请求和响应复用: 客户端和服务器可以将 HTTP 消息**分解为互不依赖的帧**，然后交错发送，最后再在另一端把它们重新组装起来。
+    - 并行交错地发送多个请求，请求之间互不影响。
+    - 并行交错地发送多个响应，响应之间互不干扰。
+    - 使用一个连接并行发送多个请求和响应。
+  - 消除不必要的延迟(队首阻塞从而造成底层 TCP 连接的效率低下)和提高现有网络容量的利用率(在 HTTP/1.x 中，如果客户端要想发起多个并行请求以提升性能，则必须使用多个 TCP 连接)，从而减少页面加载时间。
+
+- 头信息压缩
+  - 头信息使用gzip或compress压缩后再发送
+  - 客户端和服务器同时维护一张头信息表，所有字段都会存入这个表，生成一个索引号，以后就不发送同样字段了，只发送索引号
+
+- 服务器推送
+  - HTTP/2 新增的另一个强大的新功能是，服务器可以对一个客户端请求发送多个响应。 换句话说，除了对最初请求的响应外，服务器还可以向客户端推送额外资源，而无需客户端明确地请求。
+
 ## 设计模式
 ### 状态模式: 一种行为设计模式
 状态模式与有限状态机的概念紧密相关。
@@ -214,3 +241,13 @@ Finite State Machines in JavaScript
 - [实现 call，apply，bind 函数](./demo/myCallApplyBind.js)
 - [实现 Object.crete function，new 关键字](./demo/func-object-crete.js)
 - [防抖（debounce）与节流（throttle）](./demo/debounce-throttle.js)
+
+## 其他
+### [base64](https://developer.mozilla.org/en-US/docs/Glossary/Base64)
+1. base64编码规则：将一个3x8bit的二进制数据转换为4x6bit的二进制数据
+例如:11111111,11111111,11111111 切割一下成：111111，111111，111111，111111
+再转换为8位的二进制：00111111，00111111，00111111，00111111。
+2. 所以一个24位的二进制数据转换为了32的数据，增加了（32-24）/24=1/3的长度
+所以2M的二进制文件，经过base64编码之后，大小会增加 (2x1024)/3=682.667byte
+(由于最后两个8bit的不够编写成一个64位编码对应的 "A"~"/" 之间的字符，就在最后面一个字符为“=”，所以增加683byte)
+3. reference: [假如一个二进制文件大小是2M，经过base64编码之后，大小大概会增加多少？](https://github.com/azl397985856/fe-interview/issues/3)
