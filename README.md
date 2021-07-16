@@ -218,6 +218,15 @@ TSL工作原理[[ref](https://www.cloudflare.com/zh-cn/learning/ssl/what-happens
 - 服务器推送
   - HTTP/2 新增的另一个强大的新功能是，服务器可以对一个客户端请求发送多个响应。 换句话说，除了对最初请求的响应外，服务器还可以向客户端推送额外资源，而无需客户端明确地请求。
 
+## Cookie
+- Cookies是由Http服务器设置的一小段数据，用于在无状态的http通信之上维护状态，服务器将设置好的cookie发送客户端，随后客户端的请求中都会携带该信息，并在客户端中进行保存。
+- 在浏览器端可以通过`document.cookie`设置与访问cookie；但无法访问带有`HttpOnly`属性的cookie，有助于防御跨站脚本（XSS）攻击。
+- SameSite属性限定了跨站请求时cookie数据是否携带，该属性可以阻止跨站请求伪造攻击（CSRF）：
+  - `None`: 跨站请求下继续发送 cookies
+  - `Strict`: 在cookie的作用域内（cookie的domain与path属性）发送cookie
+  - `Lax`: 只有顶级跳转（如 link 链接）才跨域发送Cookie，子请求(subrequest)不发送（如图片加载或者frames的调用）；该属性是新版现代浏览器的默认值
+- Secure：Cookie只应通过HTTPS请求发送给服务端；
+
 ## 设计模式
 ### 状态模式: 一种行为设计模式
 状态模式与有限状态机的概念紧密相关。
