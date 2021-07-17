@@ -273,6 +273,16 @@ CSRF(Cross Site Request Forgery)跨站请求伪造：攻击者盗用了用户的
   - 对输出进行编码
   - 使用http-only
   - 使用Content-Security-Policy [ref](https://content-security-policy.com/)
+- [Trusted Types API](https://developer.mozilla.org/en-US/docs/Web/API/Trusted_Types_API)
+
+### CORS
+CORS(Cross-origin resource sharing)跨域资源共享是一种允许服务器让除自身外的其他Origin(域，协议和端口)访问加载资源的机制。
+对于非简单请求，会先触发一个预检请求(一个 OPTIONS 请求)，该请求成功后猜后发送真正的请求。需要服务器与浏览器的对该机制的支持，且
+在服务器端实现CORS接口。
+- 简单请求：请求方法是`简单方法`并且请求头是`简单头`
+  - 简单方法：`GET HEAD POST`
+  - 简单头: 字段不超过`Accept, Accept-Language, Content-Language, Last-Event-ID, Content-Type`， 且Content-Type的值是`application/x-www-form-urlencoded, multipart/form-data, text/plain`其中之一
+- 非简单请求：不符合简单请求条件的
 
 
 ## 设计模式
