@@ -284,7 +284,7 @@ CORS(Cross-origin resource sharing)跨域资源共享是一种允许服务器让
   - 简单头: 字段不超过`Accept, Accept-Language, Content-Language, Last-Event-ID, Content-Type`， 且Content-Type的值是`application/x-www-form-urlencoded, multipart/form-data, text/plain`其中之一
 - 非简单请求：不符合简单请求条件的
 
-## Web Performance
+## [Web Performance](https://developer.mozilla.org/zh-CN/docs/Web/Performance)
 ### 重排(reflow)与重绘(repaint)
 - DOM的多个读操作（或写操作）放在一起执行，比如不在读操作后进行写操作，这样会导致浏览器立即进行重排/重绘
 - 对数据进行缓存，比如某个标签的属性（div.style.marginTop）会多次使用，那么就将其用一个变量存储起来，下次直接使用，每次都使用`div.style.marginTop`来获取值的话，浏览器就要给出该元素的位置，所以浏览器不得不立即重排。
@@ -309,6 +309,16 @@ CORS(Cross-origin resource sharing)跨域资源共享是一种允许服务器让
 - 主线程只用于UI渲染，然后跟UI渲染不相干的任务，都放在Web Worker线程
 #### references
 - [网页性能管理详解](https://www.ruanyifeng.com/blog/2015/09/web-page-performance-in-depth.html)
+
+### CSS Animation(transition & animation) vs JavaScript Animation
+- 在只涉及重绘的时候，俩者差别不大
+- [Hardware-Accelerated CSS](https://blog.teamtreehouse.com/increase-your-sites-performance-with-hardware-accelerated-css)：transform属性动画就可以在GPU中进行。
+- 总结：尽可能通过CSS过渡/动画创建动画，复杂动画时候考虑使用js实现。
+
+### 使用DNS-prefetch (DNS 预获取)
+```html
+<link rel="dns-prefetch" href="https://fonts.googleapis.com/"> 
+```
 
 ## 设计模式
 ### 状态模式: 一种行为设计模式
