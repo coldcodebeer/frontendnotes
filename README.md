@@ -101,7 +101,7 @@ ETag（响应首部字段）是根据实体内容生成的一段hash字符串（
 - Memory Cache
 
   存储在内存中，读取速度快，但持久性不好，对缓存的内容容量有限制，关闭页面后即被释放。内存缓存会对`Content-Type，CORS`等其他特性做校验，却不太在乎`max-age=0 or no-cache Cache-Control `头字段直接缓存这份资源，但对`no-store `指令除外。另外预加载（<link rel=preload）的资源会缓存在这里。
-- Disk Cache
+- Disk Cache(http cache)
 
   根据Header中的字段进行缓存控制；存储在硬盘中，读取速度较慢，持久性好，电脑重启后也可访问到，容量大；可以跨站缓存。绝大部分的缓存都来自Disk Cache。
 - Push Cache [[ref](https://jakearchibald.com/2017/h2-push-tougher-than-i-thought/)]
@@ -319,6 +319,19 @@ CORS(Cross-origin resource sharing)跨域资源共享是一种允许服务器让
 ```html
 <link rel="dns-prefetch" href="https://fonts.googleapis.com/"> 
 ```
+  - [Is there a limit to how many domains we should “dns-prefetch preconnect” with Chrome?](https://stackoverflow.com/questions/55445293/is-there-a-limit-to-how-many-domains-we-should-dns-prefetch-preconnect-with-ch)
+#### [preload](https://developer.mozilla.org/zh-CN/docs/orphaned/Web/HTML/Preloading_content)
+- preload 加载资源一般是当前页面需要的（关键的脚本，字体，主要图片等）；prefetch 一般是其它页面有可能用到的资源
+- 可以强制浏览器在不阻塞 document 的 onload 事件的情况下请求资源
+- preload 字体不带 crossorigin 也将会二次获取
+- preload 用 “as” 或者用 “type” 属性来表示他们请求资源的优先级（比如说 preload 使用 as="style" 属性将获得最高的优先级）;不带 “as” 属性的 preload 的优先级将会等同于异步请求；使用`as`否则资源会被加载两次
+### [浏览器的工作原理](https://developer.mozilla.org/zh-CN/docs/Web/Performance/How_browsers_work)
+### 解析
+1. 处理HTML标记并构造DOM树
+2. 处理CSS并构建CSSOM树
+3. 结合DOM和CSSOM，生成一棵渲染树（包含每个节点的视觉信息）
+4. 生成布局（layout），即将所有渲染树的所有节点进行平面合成
+5. 将布局绘制（paint）在屏幕上
 
 ## 设计模式
 ### 状态模式: 一种行为设计模式
