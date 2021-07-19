@@ -284,6 +284,31 @@ CORS(Cross-origin resource sharing)跨域资源共享是一种允许服务器让
   - 简单头: 字段不超过`Accept, Accept-Language, Content-Language, Last-Event-ID, Content-Type`， 且Content-Type的值是`application/x-www-form-urlencoded, multipart/form-data, text/plain`其中之一
 - 非简单请求：不符合简单请求条件的
 
+## Web Performance
+### 重排(reflow)与重绘(repaint)
+- DOM的多个读操作（或写操作）放在一起执行，比如不在读操作后进行写操作，这样会导致浏览器立即进行重排/重绘
+- 对数据进行缓存，比如某个标签的属性（div.style.marginTop）会多次使用，那么就将其用一个变量存储起来，下次直接使用，每次都使用`div.style.marginTop`来获取值的话，浏览器就要给出该元素的位置，所以浏览器不得不立即重排。
+- 不直接操作DOM，操作[Document Fragment对象](https://developer.mozilla.org/zh-CN/docs/Web/API/DocumentFragment)或使用虚拟DOM的脚本库
+- 利用`display`属性，先设置为`none`（需要1次重排和重绘），然后进行操作等待修改完毕后（这里的任意次修改都不会导致reflow/repaint），在将其恢复显示（需要1次重排和重绘）。另外`visibility : hidden`只会涉及重绘。
+- 使用`position: absolute`或者`position: fixed`，它们已脱离文档流，重排的开销会很小。
+- 使用requestAnimationFrame API，将某些代码放到下一次重新渲染时执行
+- 不要一条条地改变样式，而要通过改变class，或者csstext属性，一次性地改变样式
+  ``` javascript
+  // bad
+  var left = 10;
+  var top = 10;
+  el.style.left = left + "px";
+  el.style.top  = top  + "px";
+
+  // good 
+  el.className += " theclassname";
+
+  // good
+  el.style.cssText += "; left: " + left + "px; top: " + top + "px;";
+  ```
+- 主线程只用于UI渲染，然后跟UI渲染不相干的任务，都放在Web Worker线程
+#### references
+- [网页性能管理详解](https://www.ruanyifeng.com/blog/2015/09/web-page-performance-in-depth.html)
 
 ## 设计模式
 ### 状态模式: 一种行为设计模式
