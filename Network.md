@@ -69,64 +69,31 @@ Model（模型）：
 为什么不是四次
   - TCP 协议的设计可以让我们同时传递 ACK 和 SYN 两个控制信息，减少了通信次数，所以不需要使用更多的通信次数传输相同的信息；
 
-### IP Layer
-- A router is performing basic routing functions
-  1. A router receives a packet of data.
-  2. The router examines the destination IP.
-  3. The router looks up the destination network in its routing table.
-- non-routable address space
-  - Ranges of IP addresses that anyone can use for their internal networks
-  - allows for nodes on a network to communicate with each other, but prevents any gateway router from forwarding traffic there, and are reserved for internal networks
-    - 10.0.0.0/8
-    - 172.16.0.0/12
-    - 192.168.0.0/16
-#### hard part
-- network ID, host ID, subnet ID, subnetmask
+### DNS(Domain Name System)
+- Resolves domain names to IP addresses.将域名解析为IP地址。
+- 过程
+  1. 操作系统无法在自己的缓存中找到ip地址，它将向解析器服务器（RESOLVER，ISP服务提供商）发送请求查询
+  2. RESOLVER检查自己是否有这个ip地址的缓存信息，如果找不到就向根域名服务器（ROOT SERVER，DNS层次结构的顶部或根目录，共13组，每组多有一个唯一的ip地址，全球部署，由12个不同的组织运营）请求数据
+  3. DNS系统中的根服务器定向到TLD（top level domain，存储顶级域的信息，如.com,.org,.net etc）服务器，然后解析器服务器向TLD服务器询问，TLD确定了ip的顶级域名，将请求定向到权威名称服务器（Authoritative name server，存储域的所有信息，包括IP地址）
+  4. 解析器服务器向权威名称服务器询问IP地址，名称服务器将IP信息发送给解析器服务器
+  5. 解析器服务器将IP地址缓存并返回给客户端
 
-### TCP
-- The transport layer is responsible for lots of important functions of reliable computer networking. These include multiplexing and demultiplexing traffic, establishing long running connections and ensuring data integrity through error checking and data verification. 
-- headers
-  - Data offset
-    - A device receives a Transmission Control Protocol (TCP) packet. The device understands where the actual data payload begins. This portion of the TCP header provides this information.
-- Six TCP contral flags
-  1. URG
-    - The control flag that isn't really in use by modern networks is the URG flag.
-  2. ACK
-    - What does a value of one in an ACK control flag represent?
-      - The acknowledgement number field should be examined.
-  3. PSH
-    - You are sending a very small amount of information that you need the listening program to respond to immediately. 
-  4. SYN
-  5. RST
-  6. FIN
-- A communication between two devices is over the maximum limit of an ethernet frame size. The Transmission Control Protocol (TCP) splits up the data into segments. Which field in the header helps keep track of the many segments?
-  - Sequence number
-- The Three way handshake
-  - SYN(Client) -> SYN/ACK(Server) -> ACK(Server)
-- The four way handshake
-  - FIN(Computer A) -> ACK(Computer B) -> FIN(Computer B) -> ACK(Computer A)
-
-
-### data package in every layer
-- Data Link Layer 物理层：Ethernet frame
-- Network Layer 网络层：IP datagram
-- Transport Layer 传输层：TCP segment
-
-### Terms
-- What is a cyclical redundancy check(CRC)?
-  - A mathematical calculation used to ensure that all data arrived intact
-- ARP(address resolution protocol): 
-  - a protocol used to discover the hardware address of a node with a certain IP address.
-  - ARP table:
-    - a list of IP addresses an the Mac addresses associated with them
-- Fragmentation
-  - the process of taking a single IP datagram and splitting it up into several smaller datagrams
-- TTL
-  - Time To Live
-  - the standard number for number for a TTL field is 64
-- port
-  - A port is a 16-bit number that's used to direct traffic to specific services running on a networked computer.
-- ephemeral port
-  - Ports that are generally used to establish outbound connections are known as port ports.
-- A DNS TTL determines what?
-  - How long a DNS entry is allowed to be cached
+### CND(Content Delivery Network) 内容分发网络
+- 定义：是指一组分布在不同地理位置的服务器，协同工作以提供互联网内容的快速交付
+- 分发/交付的内容是什么
+  - 包括 HTML 页面、javascript 文件、样式表、图像和视频。
+- CDN 如何改善网站加载时间？
+  - CDN 的全球分布性可缩短用户与网站资源之间的距离。用户不必访问源网站，而是连接到一个地理位置更近的服务器
+  - CDN会对文件进行处理（压缩、最小化），从而减少传输的数据量
+  - 硬件和软件优化，例如有效的负载均衡和固态硬盘驱动器，可以帮助数据更快地到达用户。
+  - CDN 还可以通过优化连接重用和启用 TLS 假启动来加速使用 TLS/SSL 的站点。
+- 功能：
+  - 缓存：cdn服务器将资源缓存起来
+  - 回源：cdn缓存未命中，向源服务器重新请求资源
+- 注意：
+  - 如果引用 CDN 的 SVG 浏览器报错，使用svg-inline-loader，手动在 HTML 里面注入 SVG 文件。
+  - 注册 Service Worker 的 JS 文件是不能放在 CDN 上的，因为这是官方的规定。
+- references
+  - [CDN](https://www.cloudflare.com/zh-cn/learning/cdn/what-is-a-cdn/)
+  - [前端部署之CDN的那些事情](https://blog.icehoney.me/posts/2020-01-14-frontend-deploy/)
+  - [前端性能优化-CDN 缓存](https://jkfhto.github.io/2019-10-17/%E5%89%8D%E7%AB%AF%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/%E5%89%8D%E7%AB%AF%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96-CDN-%E7%BC%93%E5%AD%98/)
