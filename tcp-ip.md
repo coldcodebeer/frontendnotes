@@ -35,6 +35,19 @@
 - The four way handshake
   - FIN(Computer A) -> ACK(Computer B) -> FIN(Computer B) -> ACK(Computer A)
 
+#### TCP fast open(TFO)
+- 请求Fast Open Cookie
+  1. 客户端发送SYN数据包，该数据包包含Fast Open选项，且该选项的Cookie为空，这表明客户端请求Fast Open Cookie；
+  2. 支持TCP Fast Open的服务器生成Cookie，并将其置于SYN-ACK数据包中的Fast Open选项以发回客户端；
+  3. 客户端收到SYN-ACK后，缓存Fast Open选项中的Cookie。
+- 实施TCP Fast Open
+  1. 客户端发送SYN数据包，**该数据包包含数据**（对于非TFO的普通TCP握手过程，SYN数据包中不包含数据）以及此前记录的Cookie；
+  2. 支持TCP Fast Open的服务器会对收到Cookie进行校验：如果Cookie有效，服务器将在SYN-ACK数据包中对SYN和数据进行确认（Acknowledgement），服务器随后将数据递送至相应的应用程序；否则，服务器将丢弃SYN数据包中包含的数据，且其随后发出的SYN-ACK数据包将仅确认（Acknowledgement）SYN的对应序列号；
+  3. **如果服务器接受了SYN数据包中的数据，服务器可在握手完成之前发送数据；**
+  4. 客户端将发送ACK确认服务器发回的SYN以及数据，但如果客户端在初始的SYN数据包中发送的数据未被确认，则客户端将重新发送数据；
+  5. 此后的TCP连接和非TFO的正常情况一致。
+- [TCP快速打开](https://zh.wikipedia.org/wiki/TCP%E5%BF%AB%E9%80%9F%E6%89%93%E5%BC%80)
+
 
 ### data package in every layer
 - Data Link Layer 物理层：Ethernet frame
