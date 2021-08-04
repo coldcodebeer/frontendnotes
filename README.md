@@ -348,14 +348,14 @@ CORS(Cross-origin resource sharing)跨域资源共享是一种允许服务器让
 其模式好比这样一个计算公式：`current state + event = next state + side effects`
 
 Finite State Machines in JavaScript
-- [Simple state machine in JavaScipt](./demo/state-machine.js) [[ref](https://kentcdodds.com/blog/implementing-a-simple-state-machine-library-in-javascript)]
+- [Simple state machine in JavaScipt](./src/state-machine.js) [[ref](https://kentcdodds.com/blog/implementing-a-simple-state-machine-library-in-javascript)]
 - [xstate:State machines and statecharts for the modern web.](https://github.com/statelyai/xstate)
 - [javascript-state-machine](https://github.com/jakesgordon/javascript-state-machine)
 
 ## 手写代码系列
-- [实现 call，apply，bind 函数](./demo/myCallApplyBind.js)
-- [实现 Object.crete function，new 关键字](./demo/func-object-crete.js)
-- [防抖（debounce）与节流（throttle）](./demo/debounce-throttle.js)
+- [实现 call，apply，bind 函数](./src/myCallApplyBind.js)
+- [实现 Object.crete function，new 关键字](./src/func-object-crete.js)
+- [防抖（debounce）与节流（throttle）](./src/debounce-throttle.js)
 
 ## 其他
 ### [base64](https://developer.mozilla.org/en-US/docs/Glossary/Base64)
