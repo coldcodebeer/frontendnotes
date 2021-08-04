@@ -1,4 +1,4 @@
-- [Block formatting context](https://developer.mozilla.org/en-US/docs/Web/Guide/CSS/Block_formatting_context)
+### [Block formatting context](https://developer.mozilla.org/en-US/docs/Web/Guide/CSS/Block_formatting_context)
  - A block formatting context is created by at least one of the following:
    - The root element of the document (<html>).
    - Floats (elements where float isn't none).
