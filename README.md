@@ -352,6 +352,11 @@ Finite State Machines in JavaScript
 - [xstate:State machines and statecharts for the modern web.](https://github.com/statelyai/xstate)
 - [javascript-state-machine](https://github.com/jakesgordon/javascript-state-machine)
 
+### Publish–subscribe pattern
+- [publish–subscribe.js](./src/publish–subscribe.js)
+### Observer Design Pattern
+- [observer–pattern.js](./src/observer–pattern.js)
+
 ## 手写代码系列
 - [实现 call，apply，bind 函数](./src/myCallApplyBind.js)
 - [实现 Object.crete function，new 关键字](./src/func-object-crete.js)
