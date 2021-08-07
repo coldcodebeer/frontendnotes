@@ -1,0 +1,8 @@
+- A JIT compiler runs during execution of the program, compiling on the fly. 
+- The original compilers that execute during creation of the program (before runtime) are now called ahead-of-time (AOT) compilers.
+- In general, only static languages are amenable to AOT compilation into native machine code because machine languages typically need to know the type of data, and in dynamic languages the type is not fixed ahead of time. Consequently, dynamic languages are typically interpreted or JIT compiled.
+- When AOT compilation is done during development, it invariably results in much slower development cycles (the time between making a change to a program and being able to execute the program to see the result of the change).
+- But AOT compilation results in programs that can execute more predictably and without pausing for analysis and compilation at runtime.
+- AOT compiled programs also start executing faster (because they have already been compiled).
+- JIT compilation provides much faster development cycles, but can result in slower or jerkier execution. 
+-  In particular, JIT compilers have slower startup times, because when the program starts running the JIT compiler has to do analysis and compilation before the code can be executed. 
