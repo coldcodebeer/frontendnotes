@@ -1,4 +1,5 @@
 - A JIT compiler runs during execution of the program, compiling on the fly. 
+- The Just In Time (JIT) technique can be seen as a "real time trans- lation" because the compilation happens while the program is executing. It’s a sort of "dynamic compilation" which happens while the program is being used.
 - The original compilers that execute during creation of the program (before runtime) are now called ahead-of-time (AOT) compilers.
 - In general, only static languages are amenable to AOT compilation into native machine code because machine languages typically need to know the type of data, and in dynamic languages the type is not fixed ahead of time. Consequently, dynamic languages are typically interpreted or JIT compiled.
 - When AOT compilation is done during development, it invariably results in much slower development cycles (the time between making a change to a program and being able to execute the program to see the result of the change).

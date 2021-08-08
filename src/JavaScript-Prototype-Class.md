@@ -10,6 +10,18 @@
 - 静态属性和方法是可被继承的
 - 静态方法可以与非静态方法重名
 - 静态方法也是可以从super对象上调用的
+
+```javascript
+class ClassWithStaticMethod {
+
+  static staticProperty = 'someValue';
+  static staticMethod() {
+    return 'static method has been called.';
+  }
+
+}
+```
+
 ### [继承与原型链](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Inheritance_and_the_prototype_chain)
 #### 创建对象的方法
 - 使用字面量
